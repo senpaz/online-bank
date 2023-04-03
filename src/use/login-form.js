@@ -29,9 +29,11 @@ export const useLoginForm = () => {
     }
   });
   const submitForm = handleSubmit(async (values) => {
-    console.log(values);
-    await store.dispatch('auth/login', values);
-    await router.push('/')
+    try {
+      await store.dispatch('auth/login', values); // если тут будет ошибка, то она попадет в catch(неважно что не обрабатываем главное не дошли до редиректа)
+      await router.push('/')
+
+    } catch (e){}
   });
 
   return {
