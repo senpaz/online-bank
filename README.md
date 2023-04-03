@@ -1,4 +1,4 @@
-# vue-practice-app
+# Online Bank
 
 ## Project setup
 ```
