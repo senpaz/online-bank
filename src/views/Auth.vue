@@ -1,23 +1,27 @@
 <template>
-  <form @submit.prevent class="card">
+  <form @submit.prevent="submitForm" class="card">
     <h1>Войти в систему</h1>
-    <div class="form-control">
+    <div :class="['form-control', {invalid: eError}]" >
       <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Введите email">
+      <input type="email" id="email" v-model="email" placeholder="Введите email">
+      <small v-if="eError">{{eError}}</small>
     </div>
-    <div class="form-control">
-      <label for="password">Email</label>
-      <input type="password" id="password" placeholder="Введите пароль">
+    <div :class="['form-control', {invalid: pError}]">
+      <label for="password">Password</label>
+      <input type="password" id="password" autocomplete v-model="password" placeholder="Введите пароль">
+      <small v-if="pError">{{pError}}</small>
     </div>
-    <button class="btn primary" type="submit">Войти</button>
+    <button class="btn primary" type="submit" :disabled="isSubmitting || isTooManyAttempts">Войти</button>
+    <div class="text-danger" v-if="isTooManyAttempts">Вы слишком часто пытаетесь войти в систему. Попробуйте позже</div>
   </form>
 </template>
 
 <script>
+import {useLoginForm} from "@/use/login-form";
 export default {
   name: "Auth",
   setup () {
-
+    return useLoginForm() // из функции возвращаем объект с данными и методами поэтому вы возвращаем просто вызов метода можем написать еще так: return { ...useLoginForm() }
   }
 }
 </script>

@@ -13,15 +13,30 @@
       <a href="#"> Сообщение</a>
     </li>
     <li>
-      <a href="#"> Выход</a>
+      <a href="#" @click.prevent="logout"> Выход</a>
     </li>
   </ul>
 </nav>
 </template>
 
 <script>
+import {useStore} from "vuex";
+import {useRouter, useRoute} from "vue-router";
+
 export default {
-  name: "TheNavbar"
+  name: "TheNavbar",
+  setup () {
+    const store = useStore()
+    const router = useRouter()
+    const route = useRoute()
+    return {
+      logout () {
+        store.commit('auth/logout')
+        //тут можно сделать после авторизации снова редирект на страницу с которой выкинуло на авторизацию
+        router.push(`/auth?page=${route.name}`)
+      }
+    }
+  }
 }
 </script>
 
