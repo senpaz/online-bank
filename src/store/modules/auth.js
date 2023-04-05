@@ -18,14 +18,15 @@ export default {
     }
   },
   actions: {
-    async login({commit}, payload) {
+    async login({commit, dispatch}, payload) {
       try {
         console.log(process.env.VUE_APP_FB_KEY)
         const {data} = await axios.post(URL, {...payload, returnSecureToken: true});
         console.log(data)
         commit('setToken', data?.idToken);
+        commit('clearMessage', null, {root: true});
       } catch (e) {
-        console.warn(error(e.response.data.error.message));
+        dispatch('setMessage', {value: error(e.response.data.error.message), type: 'danger'}, {root: true});
         //выьрасываем ошибку, чтобы ее поймать в компоненте и добавить tr y catch и делать редирент только в try
         throw new Error()
       }

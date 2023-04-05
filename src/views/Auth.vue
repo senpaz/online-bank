@@ -18,9 +18,22 @@
 
 <script>
 import {useLoginForm} from "@/use/login-form";
+import {useRoute} from 'vue-router'
+import {useStore} from "vuex";
+import {error} from "@/utils/error";
+
 export default {
   name: "Auth",
   setup () {
+    document.title = 'Авторизация'
+    const route = useRoute()
+    const store = useStore()
+    if (route.query.message) {
+      store.commit('setMessage', {
+        value: error(route.query.message),
+        type: 'warning'
+      })
+    }
     return useLoginForm() // из функции возвращаем объект с данными и методами поэтому вы возвращаем просто вызов метода можем написать еще так: return { ...useLoginForm() }
   }
 }
