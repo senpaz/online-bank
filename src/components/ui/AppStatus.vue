@@ -9,7 +9,8 @@ export default {
   props: {
     status: {
       type: String,
-      default: 'active'
+      required: true,
+      validator: (value) => ['active', 'canceled', 'done', 'pending'].includes(value)
     }
   },
   setup(props){
